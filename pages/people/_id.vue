@@ -52,9 +52,9 @@ export default {
     formatDate
   },
   computed: {
-    ...mapState(['peoples']),
+    ...mapState(['personages', 'filter']),
     personage() {
-      return this.peoples[this.id] || ''
+      return this.personages.results[this.id] || ''
     }
   },
   mounted() {
@@ -141,7 +141,7 @@ export default {
 }
 .container {
   padding: 50px 30px;
-  min-height: 100vh;
+  min-height: calc(100vh - 50px);
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="container__wrapper">
-      <Personage v-for="(people, key) in peoples" :key="key" :personage="{key, ...people}"></Personage>
+      <Personage v-for="(personage, key) in personages.results" :key="key" :personage="{key, ...personage}"></Personage>
     </div>
   </div>
 </template>
@@ -19,10 +19,10 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('setPeoples')
+    this.$store.dispatch('setPersonages')
   },
   computed: {
-    ...mapState(['peoples'])
+    ...mapState(['personages'])
   }
 }
 </script>
@@ -30,7 +30,7 @@ export default {
 <style lang="scss">
 .container {
   padding: 50px 30px;
-  min-height: 100vh;
+  min-height: calc(100vh - 50px);
   display: flex;
   justify-content: center;
   align-items: center;

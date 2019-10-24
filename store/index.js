@@ -1,31 +1,44 @@
 import axios from 'axios'
 
 export const state = () => ({
-  peoples: []
+  personages: [],
+  filter: 'all'
 })
 
 export const mutations = {
-  setPeoples (state, payload) {
-    state.peoples = payload
+  setPersonages (state, payload) {
+    state.personages = payload
+  },
+  setFilter (state, payload) {
+    state.filter = payload
   }
 }
 
-export const actions = { // this.$store.dispatch
-  /* setPeoples ({ commit }, payload) {
-    commit('setPeoples', payload)
-  },*/
-  async setPeoples ({ commit }) {
+export const actions = {
+  setFilter ({ commit }, payload) {
+    commit('setFilter', payload)
+  },
+  async setPersonages ({ commit }) {
     try {
-      const result = await axios.get('https://swapi.co/api/people/?format=json')
-      commit('setPeoples', result.data.results)
+      const result = await axios ({
+        method: 'get',
+        url: 'https://swapi.co/api/people/',
+        data: {
+          format: 'json'
+        }
+      })
+      commit('setPersonages', result.data)
     } catch (error) {
       throw error
     }
   }
 }
 
-export const getters = { // this.$store.getters
-  getPeoples (state) {
-    return state.peoples
+export const getters = {
+  getPersonages (state) {
+    return state.personages
+  },
+  getFilter (state) {
+    return state.filter
   }
 }
