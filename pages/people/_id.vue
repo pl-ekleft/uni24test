@@ -27,6 +27,9 @@
           {{loading ? 'Loading ...' : 'Information is absent'}}
         </div>
       </div>
+      <div class="bar">
+        <span @click="toBack" class="btn">Вернуться</span>
+      </div>
     </div>
   </div>
 </template>
@@ -44,18 +47,25 @@ export default {
     }
   },
   async asyncData({ params }) {
+    const personage = await axios ({
+      method: 'get',
+      url: `https://swapi.co/api/people/${params.id}/`,
+      params: {
+        format: 'json'
+      }
+    }).then((data) => {
+      return data.data
+    })
     return {
-      id: params.id
+      id: params.id,
+      personage: personage
     }
   },
   component: {
     formatDate
   },
   computed: {
-    ...mapState(['personages', 'filter']),
-    personage() {
-      return this.personages.results[this.id] || ''
-    }
+    ...mapState(['filter'])
   },
   mounted() {
     this.getStarships()
@@ -65,12 +75,21 @@ export default {
     async getStarships() {
       const result = []
       for(let value of this.personage.starships) {
-        await axios.get(`${value}?format=json`).then((data) => {
+        await axios ({
+          method: 'get',
+          url: value,
+          params: {
+            format: 'json'
+          }
+        }).then((data) => {
           result.push(data.data)
         })
       }
       this.starships = result
       this.loading = false
+    },
+    toBack() {
+      this.$router.back()
     }
   }
 }
@@ -139,9 +158,28 @@ export default {
     grid-area: starships;
   }
 }
+.bar {
+  display: block;
+}
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 46px;
+  color: white;
+  font-weight: 600;
+  background-color: orangered;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px 0 rgba(128, 144, 160, 0.1), 0 1px 3px 0 rgba(128, 144, 160, 0.2);
+  &:hover {
+    cursor: pointer;
+    background-color: darkred;
+  }
+}
 .container {
   padding: 50px 30px;
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 54px);
   display: flex;
   justify-content: center;
   align-items: center;

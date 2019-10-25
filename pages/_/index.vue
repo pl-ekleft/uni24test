@@ -1,8 +1,12 @@
 <template>
   <div class="container">
-    <div class="container__wrapper">
-      <Personage v-for="(personage, key) in personages.results" :key="key" :personage="{key, ...personage}"></Personage>
-    </div>
+    <transition-group
+        tag="div"
+        name="personage-"
+        class="container__wrapper"
+    >
+      <Personage v-for="(personage, key) in personages.results" :key="key" :personage="{key, ...personage}" />
+    </transition-group>
   </div>
 </template>
 
@@ -18,11 +22,17 @@ export default {
     return {
     }
   },
+  async asyncData({ params }) {
+    return {
+      id: params.pathMatch || 1
+    }
+  },
   created() {
-    this.$store.dispatch('setPersonages')
+    this.$store.dispatch('setCurrentPage', this.id)
+    this.$store.dispatch('setPersonages', {page:this.id})
   },
   computed: {
-    ...mapState(['personages'])
+    ...mapState(['personages','count'])
   }
 }
 </script>
@@ -30,11 +40,12 @@ export default {
 <style lang="scss">
 .container {
   padding: 50px 30px;
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 54px);
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  flex-direction: column;
   &__wrapper {
     display: grid;
     grid-template-columns: repeat(3,1fr);

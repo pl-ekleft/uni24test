@@ -38,7 +38,7 @@
 
 <style lang="scss" scoped>
   section {
-    min-height: calc(100vh - 50px);
+    min-height: calc(100vh - 54px);
     display: flex;
     justify-content: center;
     align-items: center;

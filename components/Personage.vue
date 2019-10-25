@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="`people/${personage.key}`" v-show="checkFilter" class="personage">
+  <nuxt-link :to="`/people/${showNumbers(personage.url)}`" v-if="checkFilter" class="personage">
     <div class="personage__photo">
       <img :src="`https://robohash.org/${personage.name}`" :alt="personage.name" />
     </div>
@@ -14,7 +14,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { formatDate } from '~/utils/common'
+import { formatDate, showNumbers } from '~/utils/common'
 
 export default {
   data() {
@@ -37,7 +37,8 @@ export default {
     }
   },
   methods: {
-    formatDate
+    formatDate,
+    showNumbers
   }
 }
 </script>
@@ -71,6 +72,23 @@ export default {
     color: #47494e;
     font-size: 14px;
     font-weight: 400;
+  }
+  &--enter {
+    opacity: 0;
+    &-active {
+      transition: all 1s;
+    }
+  }
+  &--leave {
+    &-active {
+      transition: all 0.3s;
+      opacity: 0;
+      transform: translateY(0);
+      position: absolute;
+    }
+  }
+  &--move {
+    transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
   }
 }
 </style>
