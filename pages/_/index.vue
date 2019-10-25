@@ -5,7 +5,7 @@
         name="personage-"
         class="container__wrapper"
     >
-      <Personage v-for="(personage, key) in personages.results" :key="key" :personage="{key, ...personage}" />
+      <Personage v-for="(personage, key) in personages.results" :key="`tg-${key}`" :personage="{key, ...personage}" />
     </transition-group>
   </div>
 </template>
