@@ -22,7 +22,7 @@ export default {
     return {
     }
   },
-  async asyncData({ params }) {
+  asyncData({ params }) {
     return {
       id: params.pathMatch || 1
     }
